@@ -118,7 +118,7 @@ const dataForStack: Array<DummyData> = [
         name: '9',
         uv: 3000,
         pv: 1200,
-        amt: 4000,
+        amt: 3000,
       },
 ]
 
