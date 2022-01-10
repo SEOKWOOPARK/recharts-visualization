@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/recharts": "^1.8.23",
+    "axios": "^0.24.0",
+    "recharts": "^2.1.8",
+    "xlsx": "^0.17.4"
+  }
+}
