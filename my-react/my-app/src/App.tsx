@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import StackedGraph from './component/StackedGraph';
+import AllGraph from './component/AllGraph';
 
 interface ExcelType {
   id: number
@@ -11,8 +11,7 @@ interface ExcelType {
 function App() {
   return (
     <div>
-      {/* <input type="file" onChange={importExcel}/> */}
-      <StackedGraph />
+      <AllGraph />
     </div>
   );
 }

@@ -2,11 +2,14 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import { Brush, Scatter, Bar, Legend, BarChart, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart} from 'recharts'
 import XLSX from 'xlsx'
+import AreaGraph from './AreaGraph'
+import BarGraph from './BarGraph'
+import ScatterGraph from './ScatterGraph'
 
-interface ExcelType {
+export interface ExcelType {
   id: number
-  sales: number
   weight: number
+  sales: number
 }
 
 interface DummyData {
@@ -42,6 +45,44 @@ interface InitialData {
   impression: number
 }
 
+const ex: Array<ExcelType> = [
+  {
+    id: 1,
+    sales: 200,
+    weight: 30,
+  },
+  {
+    id: 2,
+    sales: 110,
+    weight: 20,
+  },
+  {
+    id: 3,
+    sales: 400,
+    weight: 30,
+  },
+  {
+    id: 4,
+    sales: 300,
+    weight: 50,
+  },
+  {
+    id: 5,
+    sales: 200,
+    weight: 20,
+  },
+  {
+    id: 6,
+    sales: 120,
+    weight: 40,
+  },
+  {
+    id: 7,
+    sales: 430,
+    weight: 30,
+  }
+]
+
 const initialData: Array<InitialData> = [
   { name: 1, cost: 40, impression: 100 },
   { name: 2, cost: 50, impression: 120 },
@@ -65,66 +106,7 @@ const initialData: Array<InitialData> = [
   { name: 20, cost: 70, impression: 100 }
 ]
 
-const dataForStack: Array<DummyData> = [
-    {
-        name: '1',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-      },
-      {
-        name: '2',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-      },
-      {
-        name: '3',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-      },
-      {
-        name: '4',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-      },
-      {
-        name: '5',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-      },
-      {
-        name: '6',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-      },
-      {
-        name: '7',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-      },
-      {
-        name: '8',
-        uv: 5000,
-        pv: 2200,
-        amt: 2000,
-      },
-      {
-        name: '9',
-        uv: 3000,
-        pv: 1200,
-        amt: 3000,
-      },
-]
-
-
-
-function StackedGraph() {
+function AllGraph() {
   const {useState} = React
   // const {id, sales, weight} = props
   const [initialState, setInitialState] = useState<InitialState>({
@@ -156,7 +138,6 @@ function StackedGraph() {
     console.log((Number(bottom) | 0) - control.offset)
     console.log((Number(top) | 0) + control.offset)
     return [(Number(bottom) | 0) - control.offset, (Number(top) | 0) + control.offset]
-    // return [(bottom | 0) - control.offset, (top | 0) + control.offset]
   }
 
   const Zoom = () => {
@@ -190,10 +171,9 @@ function StackedGraph() {
       top2: top2.toString(),
       animation: true
     })
-    
   }
 
-  const [resultFile, setResultFile] = useState<ExcelType[]>()
+  const [resultFile, setResultFile] = useState<ExcelType[] | undefined>(undefined)
   const [excelFile, setExcelFile] = useState(null)
   const [excelFileError, setExcelFileError] = useState(null)
   const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
@@ -258,80 +238,15 @@ function StackedGraph() {
         <input type="file" onChange={importExcel}/>
         <button type="submit">제출하시오</button>
       </form>
-      <h2>Stacked Graph For Analytics</h2>
-      <ResponsiveContainer width="100%" aspect={3}>
-        <AreaChart
-          width={500}
-          height={400}
-          data={resultFile}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <defs>
-            <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#8884df" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#8884df" stopOpacity={0.2} />
-            </linearGradient>
-            <linearGradient id="colorImpression" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0.2} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis name="id" />
-          <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="sales" stackId="1" stroke="#8884df" fill="url(#colorCost)"/>
-          <Area type="monotone" dataKey="weight" stackId="2" stroke="#82ca9d" fill="url(#colorImpression)"/>
-          <Brush />
-        </AreaChart>
-         
-      </ResponsiveContainer>
+      
+      <AreaGraph data={resultFile} />
       <div className='other_graph'>
-        <BarChart
-          width={500}
-          height={400}
-          data={resultFile}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey="id"/>
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="sales" stackId="1" fill="#8884df"/>
-          <Bar dataKey="weight" stackId="1" fill="#82ca9d"/>
-        </BarChart>
-        <ScatterChart
-          width={500}
-          height={400}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0
-          }}
-        >
-          <CartesianGrid />
-          <XAxis type="number" dataKey="id" unit="번 사원"/>
-          <YAxis yAxisId="left" type="number" dataKey="sales" stroke="#8884d8"/>
-          <YAxis yAxisId="right" orientation="right" type="number" dataKey="weight" stroke="#82ca9d" />
-          <Tooltip cursor={{strokeDasharray: "3 3"}}/>
-          <Scatter yAxisId="left" name="판매실적 + 체중" data={resultFile} fill="#8884df" />
-          <Scatter yAxisId="right" name="판매실적 + 체중" data={resultFile} fill="#82ca9d" />
-        </ScatterChart>
+        <BarGraph data={resultFile} />
+        <ScatterGraph data={resultFile} />
       </div>
+      
     </div>
   )
 }
 
-export default StackedGraph
+export default AllGraph
