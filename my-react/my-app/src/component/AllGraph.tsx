@@ -5,6 +5,7 @@ import XLSX from 'xlsx'
 import AreaGraph from './AreaGraph'
 import BarGraph from './BarGraph'
 import ScatterGraph from './ScatterGraph'
+import {Table} from 'react-bootstrap'
 
 export interface ExcelType {
   id: number
@@ -203,18 +204,62 @@ function AllGraph() {
     console.log(resultFile)
   }, [resultFile])
   
-  const validTestForExcelFile = (arr: Array<ExcelType>) => {
-    arr.forEach((it, index) => {
-      if(typeof(it.id) !== "number"){
-        console.log(`${index + 1}번째 행에서 id 값의 타입이 숫자가 아닙니다`)
-      }
-      if(typeof(it.sales) !== "number"){
-        console.log(`${index + 1}번째 행에서 sale의 타입이 숫자가 아닙니다`)
-      }
-      if(typeof(it.weight) !== "number"){
-        console.log(`${index + 1}번째 행에서 weight의 타입이 숫자가 아닙니다`)
-      }
-    })
+  const validTestForExcelFile = (arr: Array<ExcelType> | undefined) => {
+    if(arr) {
+      return (
+        <table>
+          <thead>
+            <tr>
+              타입 오류 검증
+            </tr>
+          </thead>
+          <tbody>
+            {
+            arr.map((it: ExcelType, index: number) => {
+            const idx = index
+              
+            if(typeof(it.id) !== "number") {
+              return (
+                <>
+                  <tr key={it.id}>
+                    <th>id : number</th>
+                    <td>{`${idx}번째 데이터 id는 ${typeof(it.id)}`}</td>
+                  </tr>
+                </>
+              )
+            }
+            
+            if(typeof(it.sales) !== "number") {
+              return (
+                <>
+                  <tr key={it.id}>
+                    <th>sales : number</th>
+                    <td>{`${idx}번째 데이터 sales는 ${typeof(it.sales)} 타입`}</td>
+                  </tr>
+                </>
+              )
+            }
+            if(typeof(it.weight) !== "number") {
+              return (
+                <>
+                  <tr key={it.id}>
+                    <th>weight : number</th>
+                    <td>{`${idx}번째 데이터 weight는 ${typeof(it.weight)} 타입`}</td>
+                  </tr>
+                </>
+              )
+            }
+          })
+          }
+          </tbody> 
+        </table>
+      )
+    } else {
+      return null
+    }
+
+    
+
   }
 
   const excelSubmit = (e: React.FormEvent) => {
@@ -233,18 +278,22 @@ function AllGraph() {
 
 
   return (
-    <div>
-      <form className="form-group" onSubmit={excelSubmit}>
-        <input type="file" onChange={importExcel}/>
-        <button type="submit">제출하시오</button>
-      </form>
+    <div className='graph'>
+      <div>
+        <form className="form-group" onSubmit={excelSubmit}>
+          <input type="file" onChange={importExcel} />
+          <button type="submit">Visualizaing</button>
+        </form>
       
-      <AreaGraph data={resultFile} />
-      <div className='other_graph'>
-        <BarGraph data={resultFile} />
-        <ScatterGraph data={resultFile} />
+        <AreaGraph data={resultFile} />
+        <div className='other_graph'>
+          <BarGraph data={resultFile} />
+          <ScatterGraph data={resultFile} />
+        </div>
       </div>
-      
+      <div className='graph_error'>
+        {validTestForExcelFile(resultFile)}
+      </div>
     </div>
   )
 }

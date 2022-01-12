@@ -12,7 +12,8 @@ import { ExcelType } from './AllGraph'
 
 const BarGraph = (props: {data : ExcelType[] | undefined}) => {
   // console.log(props.children)
-
+  const {useEffect} = React
+  
   return (
     <div>
       <BarChart

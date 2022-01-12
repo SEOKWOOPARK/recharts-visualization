@@ -11,11 +11,9 @@ import {
 import {ExcelType} from './AllGraph'
 
 const AreaGraph:React.FC<{data: ExcelType[] | undefined}> = (props) => {
-  const {useState, useEffect} = React
-
   return (
     <div>
-      <h2>Area Graph For Analytics</h2>
+      <h2>Graph For Analytics</h2>
       <ResponsiveContainer width="100%" aspect={3}>
         <AreaChart
           width={500}

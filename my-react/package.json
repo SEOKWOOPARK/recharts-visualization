@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "@types/react-router-dom": "^5.3.2",
     "@types/recharts": "^1.8.23",
     "axios": "^0.24.0",
+    "npm-deploy-team-web2": "^1.0.0",
+    "react-router-dom": "^6.2.1",
     "recharts": "^2.1.8",
     "xlsx": "^0.17.4"
   }

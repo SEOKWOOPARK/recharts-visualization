@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #132737; */
+  background-color: #132737;
   text-align: center;
   margin-top: 2em;
 }
@@ -25,5 +25,58 @@ h2 {
 }
 
 .err_div {
+  color: red;
+}
+
+.dashboard_wrapper {
+  display: flex;
+}
+
+.side_bar {
+  width: 15%;
+  background-color: #1B5175;
+  /* text-decoration: none; */
+  list-style: none;
+  color: red;
+}
+
+a:link {
+  text-decoration: none;
+  
+}
+
+ul {
+  list-style: none;
+  color: red;
+  text-align: center;
+  align-items: center;
+  /* text-decoration: none; */
+}
+
+.side_bar ul li {
+  color: white;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  width: 100px;
+  height: 100%;
+}
+
+li a{
+  color: white;
+}
+
+.graph {
+  display: flex;
+}
+
+li {
+ margin-top: 15px; 
+}
+
+form {
+  color: white;
+}
+
+table {
   color: red;
 }
